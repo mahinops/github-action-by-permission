@@ -1,0 +1,32 @@
+name: 'Check Permissions'
+description: 'Check if the user triggering the workflow is allowed to proceed.'
+inputs:
+  permissions-file:
+    description: 'Path to the permissions.yml file'
+    required: true
+  actor:
+    description: 'GitHub actor triggering the workflow'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+  - name: Set up Python
+    uses: actions/setup-python@v4
+
+  - name: Install PyYAML
+    run: pip install pyyaml
+    shell: bash
+
+  - name: Check Permissions
+    run: |
+      python -c "
+      import yaml
+      with open('${{ inputs.permissions-file }}', 'r') as f:
+          permissions = yaml.safe_load(f)
+      if '${{ inputs.actor }}' not in permissions['allowed_users']:
+          print('-----------------ERROR--------------------')
+          print('User ${{ inputs.actor }} is not allowed to trigger this workflow.')
+          print('------------------------------------------')
+          exit(1)
+      "
+    shell: bash
