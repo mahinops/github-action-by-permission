@@ -8,6 +8,8 @@ Development of this action is still ongoing, with plans to introduce more featur
 
 
 ## Usage
+
+### Step: 1
 The `github-action-by-permission` action is designed to enforce Role-Based Access Control (RBAC) for manually triggered (`workflow_dispatch`) GitHub workflows. Here's a simple example of how to use this action to control who can trigger a specific workflow:
 
 ```yml
@@ -31,26 +33,29 @@ jobs:
       - name: Echo Something
         run: echo "Hello World!"
 ```
+### Step: 2
+Create a yml file mentioning the specific users with their username for the pipeline permission. The file format should be as followed_
+
+```yml
+allowed_users:
+- username1
+- username2
+- username3
+```
+`Note`: *In general, this `permissions.yaml` file should be kept in the root directory of the project*.
 
 ### Explanation
-**Checkout Code**: The first step checks out the repository code using the standard actions/checkout@v3 action.
+**Checkout Code**: The first step checks out the repository code using the standard `actions/checkout@v3` action.
 
-**Check Permissions**: The `github-action-by-permission` action is then used to verify if the user who initiated the workflow has permission to do so. It references a yml file (in this case, named user-permissions.yml) where allowed users are defined.
+**Check Permissions**: The `github-action-by-permission` action is then used to verify if the user who initiated the workflow has permission to do so. It references a `yml` file (*in this case, named user-permissions.yml*) where allowed users are defined.
 
 **Echo Something**: If the permission check passes, the workflow proceeds to execute subsequent steps, such as echoing "Hello World!" in this example. You can specify your workflows as needed.
 
 ### Key Points
 **permissions-file**: This input points to the YAML file that contains the list of users authorized to trigger the workflow. Only those listed in this file will be able to execute the pipeline. 
 
-`Note`: *In general, this `permissions.yaml` file is kept in the root directory of the project*.
-The structure of this file is as below:
+`Note Again`: *In general, this `permissions.yaml` file should be kept in the root directory of the project*.
 
-```yml
-allowed_users:
-- user1
-- user2
-- user3
-```
 
 **Security and Control**: By integrating this action into your workflows, you can ensure that only authorized individuals have the ability to initiate critical processes, adding a layer of security and control to your CI/CD pipelines.
 
