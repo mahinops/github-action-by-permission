@@ -14,7 +14,7 @@ runs:
   steps:
   - name: Check Permissions
     run: |
-      if ! grep -q "${{ inputs.actor }}" "${{ inputs.permissions-file }}"; then
+      if ! grep -qx "${{ inputs.actor }}" "${{ inputs.permissions-file }}"; then
         echo "-----------------ERROR--------------------"
         echo "User ${{ inputs.actor }} is not allowed to trigger this workflow."
         echo "------------------------------------------"
