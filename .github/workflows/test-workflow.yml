@@ -9,7 +9,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Check Permissions
-        uses: ./.github/actions/check-permissions
+        uses: ./
         with:
           permissions-file: 'permissions.yml'
 
