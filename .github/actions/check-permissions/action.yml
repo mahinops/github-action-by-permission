@@ -7,6 +7,8 @@ inputs:
   actor:
     description: 'GitHub actor triggering the workflow'
     required: true
+    default: ${{ github.actor }}
+
 runs:
   using: 'composite'
   steps:
@@ -19,14 +21,10 @@ runs:
 
   - name: Check Permissions
     run: |
-      python -c "
-      import yaml
-      with open('${{ inputs.permissions-file }}', 'r') as f:
-          permissions = yaml.safe_load(f)
-      if '${{ inputs.actor }}' not in permissions['allowed_users']:
-          print('-----------------ERROR--------------------')
-          print('User ${{ inputs.actor }} is not allowed to trigger this workflow.')
-          print('------------------------------------------')
-          exit(1)
-      "
+      if ! grep -q "${{ inputs.actor }}" "${{ inputs.permissions-file }}"; then
+        echo "-----------------ERROR--------------------"
+        echo "User ${{ inputs.actor }} is not allowed to trigger this workflow."
+        echo "------------------------------------------"
+        exit 1
+      fi
     shell: bash
