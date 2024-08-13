@@ -59,6 +59,4 @@ This example demonstrates how to set up and use the `github-action-by-permission
 
 
 ## Github Repository
-You can visit this repo for the latest release => [Click Here](https://github.com/mokhlesurr031/github-action-by-permission)
-
-And this repo contains the test of this action => [Click Here](https://github.com/mokhlesurr031/test-github-action-by-permission)
+And this repo contains the test of this action => [Test Repo for Github Action Permission](https://github.com/mokhlesurr031/test-github-action-by-permission)
