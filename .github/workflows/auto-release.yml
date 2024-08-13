@@ -1,0 +1,61 @@
+name: Release Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set Git Config
+        run: |
+          git config --global user.email "$"
+          git config --global user.name "$"
+        shell: bash
+
+      - name: Check for Existing Tags and Create
+        id: check_tags
+        run: |
+          tags=$(git ls-remote --tags origin)
+          if [ -z "$tags" ]; then
+            echo "No tags found."
+            git tag -a "v1.0" -m "Initial release"
+            git push origin "v1.0"
+            echo "::set-output name=new_tag::v1.0"
+          else
+            echo "Tags found:"
+            remote_tags=$(git ls-remote --tags origin | awk '{print $2}' | awk -F '/' '{print $3}' | sort -V | tail -n 1)
+            remote_tag="${remote_tags::-3}"
+            echo $remote_tag
+            echo "Existing tag is $remote_tag"
+
+            # Internal Field Separator
+            IFS='.' read -r major minor <<< "${remote_tag:1}"
+
+            minor=$((minor + 1))
+            new_tag_version="v$major.$minor"
+            echo $new_tag_version
+
+            git tag -a "${new_tag_version}" -m "Release -${new_tag_version}"
+            git push origin "${new_tag_version}"
+
+            echo "::set-output name=new_tag::${new_tag_version}"
+          fi
+        env:
+          GITHUB_TOKEN: $
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: $
+        with:
+          tag_name: $
+          release_name: Release $
+          body: |
+            Get the Release Details__
