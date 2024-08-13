@@ -12,13 +12,6 @@ inputs:
 runs:
   using: 'composite'
   steps:
-  - name: Set up Python
-    uses: actions/setup-python@v4
-
-  - name: Install PyYAML
-    run: pip install pyyaml
-    shell: bash
-
   - name: Check Permissions
     run: |
       if ! grep -q "${{ inputs.actor }}" "${{ inputs.permissions-file }}"; then
