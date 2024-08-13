@@ -1,4 +1,4 @@
-name: 'Check Permissions'
+name: 'RBAC in Github Action'
 description: 'Check if the user triggering the workflow is allowed to proceed.'
 inputs:
   permissions-file:
