@@ -12,7 +12,6 @@ jobs:
         uses: ./.github/actions/check-permissions
         with:
           permissions-file: 'permissions.yml'
-          actor: '${{ github.actor }}'
 
       - name: Echo Something
         run: echo "Hello World!"
