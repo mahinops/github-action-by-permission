@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Check Permissions
-        uses: mokhlesurr031/github-action-by-permission@v1.5
+        uses: mokhlesurr031/github-action-by-permission@v1.8
         with:
           permissions-file: 'user-permissions.yml' //specify your yml file with correct path here
 
